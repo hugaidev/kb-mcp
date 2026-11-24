@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+.kb_index/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+.env
+.claude/settings.local.json

@@ -1,0 +1,189 @@
+# Golden set for retrieval evals.
+#
+# Each case: a question as an employee would ask it (paraphrased on purpose: it must not copy the
+# wording of the document), the doc that answers it, and `evidence`: a VERBATIM substring of that
+# document's body that contains the answer. A retrieved chunk counts as relevant when it covers
+# at least `evals.harness.MIN_COVERAGE` of the evidence span, which makes relevance independent
+# of the chunker. tests/test_golden.py checks every evidence string exists in its document.
+#
+# Rules: never edit a question or its evidence to make a run green. New cases go at the end.
+cases:
+  # POL-001 Trabajo remoto
+  - id: q01
+    question: ¿Cuántos días por semana tengo que ir a la oficina si estoy en esquema híbrido?
+    doc_id: POL-001
+    evidence: asistir a la oficina un mínimo de dos días por semana
+  - id: q02
+    question: Entré hace dos meses, ¿puedo pedir trabajar 100% desde casa?
+    doc_id: POL-001
+    evidence: Durante el período de prueba de los primeros tres meses no se otorga la modalidad remota
+  - id: q03
+    question: ¿En qué horario tengo que estar sí o sí conectado?
+    doc_id: POL-001
+    evidence: franja núcleo de 10 a 16 horas
+  - id: q04
+    question: ¿Me pagan algo por internet y luz si trabajo desde mi casa?
+    doc_id: POL-001
+    evidence: compensación mensual por gastos de conectividad y energía equivalente al 8 % del salario mínimo vital y móvil
+  - id: q05
+    question: Quiero trabajar unas semanas desde España, ¿se puede?
+    doc_id: POL-001
+    evidence: Trabajar desde el exterior está permitido hasta 20 días hábiles por año calendario
+
+  # POL-002 Viajes y viáticos
+  - id: q06
+    question: Tengo un vuelo de diez horas a Madrid, ¿puedo ir en business?
+    doc_id: POL-002
+    evidence: Se admite clase ejecutiva únicamente para vuelos de más de ocho horas de duración continua
+  - id: q07
+    question: ¿Cuánto puedo gastar por noche de hotel en el exterior si no hay hotel con convenio?
+    doc_id: POL-002
+    evidence: el tope por noche es de 150 dólares en el exterior
+  - id: q08
+    question: ¿Tengo que guardar los tickets de las comidas durante el viaje?
+    doc_id: POL-002
+    evidence: No es necesario presentar comprobantes de las comidas cubiertas por el viático
+  - id: q09
+    question: ¿Qué porcentaje del viático me pueden adelantar antes de viajar?
+    doc_id: POL-002
+    evidence: anticipo de fondos de hasta el 70 % del viático estimado
+
+  # POL-003 Seguridad de la información
+  - id: q10
+    question: ¿Qué largo mínimo tiene que tener mi contraseña?
+    doc_id: POL-003
+    evidence: Las contraseñas deben tener al menos 14 caracteres
+  - id: q11
+    question: ¿Puedo pegar un documento interno en un traductor online o en ChatGPT?
+    doc_id: POL-003
+    evidence: incluidos traductores en línea y asistentes de inteligencia artificial que no figuren en el catálogo de herramientas aprobadas
+  - id: q12
+    question: ¿Puedo usar un pendrive para pasar archivos?
+    doc_id: POL-003
+    evidence: Está prohibido conectar memorias USB no provistas por Tecnología
+  - id: q13
+    question: ¿Cada cuánto me obligan a cambiar la contraseña?
+    doc_id: POL-003
+    evidence: Las contraseñas no se cambian periódicamente por calendario, sino cuando hay sospecha de compromiso
+  - id: q14
+    question: ¿Qué hago con papeles confidenciales que ya no necesito?
+    doc_id: POL-003
+    evidence: se destruyen en los contenedores de destrucción segura, nunca en la papelera común
+
+  # POL-004 Licencias y vacaciones
+  - id: q15
+    question: Tengo siete años de antigüedad, ¿cuántos días de vacaciones me corresponden?
+    doc_id: POL-004
+    evidence: 21 días entre cinco y diez años
+  - id: q16
+    question: Me sobraron días de vacaciones del año pasado, ¿hasta cuándo los puedo usar?
+    doc_id: POL-004
+    evidence: pueden acumularse solo hasta el 31 de marzo del año siguiente
+  - id: q17
+    question: Falté dos días por gripe, ¿necesito presentar algo?
+    doc_id: POL-004
+    evidence: Toda ausencia por enfermedad de más de un día requiere certificado médico
+  - id: q18
+    question: ¿Cuántos días me dan cuando nace mi hijo si no soy quien dio a luz?
+    doc_id: POL-004
+    evidence: La licencia por nacimiento o adopción para el otro progenitor es de 15 días corridos
+  - id: q19
+    question: Me caso el mes que viene, ¿tengo días libres?
+    doc_id: POL-004
+    evidence: matrimonio (10 días corridos)
+  - id: q20
+    question: ¿Tengo días para hacer trámites personales sin explicar para qué?
+    doc_id: POL-004
+    evidence: dos días por año para trámites personales
+
+  # POL-005 Código de conducta
+  - id: q21
+    question: Un proveedor me quiere regalar una botella de vino cara, ¿la puedo aceptar?
+    doc_id: POL-005
+    evidence: cuyo valor no supere los 100 dólares por persona y por año
+  - id: q22
+    question: Mi hermano es dueño de una empresa que nos vende insumos, ¿tengo que avisar?
+    doc_id: POL-005
+    evidence: Todo colaborador debe declarar los conflictos de interés reales o potenciales
+  - id: q23
+    question: ¿Cómo denuncio algo sin que sepan que fui yo?
+    doc_id: POL-005
+    evidence: La línea ética permite reportar posibles incumplimientos de manera anónima
+  - id: q24
+    question: ¿Está permitido darle algo a un empleado municipal para que agilice una habilitación?
+    doc_id: POL-005
+    evidence: Los pagos de facilitación también están prohibidos, aunque sean de bajo monto
+
+  # POL-006 Protección de datos
+  - id: q25
+    question: Un cliente me pidió que borremos sus datos, ¿qué tengo que hacer?
+    doc_id: POL-006
+    evidence: debe reenviarla el mismo día al buzón del Delegado de Protección de Datos, sin responderla por su cuenta
+  - id: q26
+    question: ¿Por cuánto tiempo guardamos los CV de los candidatos que no quedaron?
+    doc_id: POL-006
+    evidence: los currículums de candidatos no seleccionados se eliminan a los doce meses
+  - id: q27
+    question: ¿Mi jefe puede ver el certificado médico que presenté?
+    doc_id: POL-006
+    evidence: nunca se comparten con el gerente, que solo recibe la cantidad de días de licencia
+  - id: q28
+    question: ¿Podemos pasarle la base de clientes a un proveedor de marketing?
+    doc_id: POL-006
+    evidence: Ningún dato personal puede compartirse con un proveedor sin un contrato
+
+  # PRC-001 Reembolso de gastos
+  - id: q29
+    question: Perdí el ticket de un taxi, ¿me lo devuelven igual?
+    doc_id: PRC-001
+    evidence: declaración jurada de gasto sin comprobante hasta un máximo de 50 dólares por rendición
+  - id: q30
+    question: ¿Hasta cuándo tengo para cargar un gasto que hice?
+    doc_id: PRC-001
+    evidence: La rendición debe cargarse dentro de los 30 días corridos de realizado el gasto
+  - id: q31
+    question: ¿Quién tiene que aprobar una rendición de 3.000 dólares?
+    doc_id: PRC-001
+    evidence: Las rendiciones mayores requieren también la aprobación del director del área
+  - id: q32
+    question: ¿Cuándo me depositan la plata de los gastos aprobados?
+    doc_id: PRC-001
+    evidence: Las rendiciones aprobadas antes del día 20 de cada mes se pagan por transferencia a la cuenta sueldo
+
+  # PRC-002 Accesos
+  - id: q33
+    question: Necesito permisos de administrador en un servidor, ¿quién lo autoriza y por cuánto tiempo?
+    doc_id: PRC-002
+    evidence: requieren también la aprobación de Seguridad de la Información y se otorgan por un plazo máximo de 90 días renovables
+  - id: q34
+    question: ¿Con cuánta anticipación hay que avisar que entra alguien nuevo al equipo?
+    doc_id: PRC-002
+    evidence: al menos cinco días hábiles antes de la fecha de inicio
+  - id: q35
+    question: Si despiden a alguien de un día para el otro, ¿cuándo se le cortan los accesos?
+    doc_id: PRC-002
+    evidence: la Mesa de Ayuda revoca los accesos en el momento en que Personas lo comunica, antes de la reunión con el colaborador
+  - id: q36
+    question: ¿Por cuánto tiempo puede tener cuenta un consultor externo?
+    doc_id: PRC-002
+    evidence: nunca superior a doce meses
+
+  # PRC-003 Incidentes de seguridad
+  - id: q37
+    question: Me robaron la notebook del trabajo en la calle, ¿qué hago?
+    doc_id: PRC-003
+    evidence: hay que reportarlo dentro de la hora de advertido, aunque sea fuera del horario laboral
+  - id: q38
+    question: ¿A qué número llamo si creo que tengo un virus?
+    doc_id: PRC-003
+    evidence: Llamar al interno 4444 del Centro de Operaciones de Seguridad
+
+  # PRC-004 Compras
+  - id: q39
+    question: Quiero contratar un servicio de 20.000 dólares, ¿cuántos presupuestos necesito?
+    doc_id: PRC-004
+    evidence: Entre 5.000 y 50.000 dólares se piden tres cotizaciones de proveedores distintos
+  - id: q40
+    question: ¿Puedo dividir una compra grande en varias órdenes chicas para que la apruebe mi gerente?
+    doc_id: PRC-004
+    evidence: Fraccionar una compra en varias órdenes para quedar bajo un nivel de aprobación está prohibido

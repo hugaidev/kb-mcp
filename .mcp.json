@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "kb": {
+      "command": "uv",
+      "args": ["run", "--quiet", "kb-mcp"],
+      "env": {
+        "KB_STORE": "local",
+        "KB_INDEX_DIR": ".kb_index"
+      }
+    }
+  }
+}

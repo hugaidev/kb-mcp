@@ -1,0 +1,32 @@
+services:
+  db:
+    image: pgvector/pgvector:pg17
+    environment:
+      POSTGRES_USER: kb
+      POSTGRES_PASSWORD: kb-local-only
+      POSTGRES_DB: kb
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U kb -d kb"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+  kb-mcp:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      KB_STORE: pgvector
+      KB_DATABASE_URL: postgresql://kb:kb-local-only@db:5432/kb
+      KB_CHUNKER: semantic
+    volumes:
+      # Edit a policy in ./docs and `docker compose restart kb-mcp` to re-index.
+      - ./docs:/app/docs:ro
+    ports:
+      - "127.0.0.1:8000:8000"
+
+volumes:
+  pgdata:

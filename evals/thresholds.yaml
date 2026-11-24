@@ -1,0 +1,8 @@
+# Regression floors for `kb-evals --gate` (run by the Claude Code pre-commit hook).
+# Set just below the baseline measured with the default embedder
+# (semantic: recall@5 0.875, mrr@10 0.697). Never lower a floor to make a commit pass:
+# fix the regression, or raise/lower it deliberately in its own commit with the reason.
+min:
+  semantic:
+    recall@5: 0.85
+    mrr@10: 0.65
