@@ -29,7 +29,9 @@ read-only: never edit files, never commit. Report findings; the main session dec
 4. **Chunk invariants.** Chunks are contiguous spans (`text == doc.text[start:end]`), the
    semantic chunker never crosses a heading, sizes stay within bounds.
 5. **MCP contract.** Tool names, parameters and result keys of `search_docs` / `get_doc` and the
-   `kb://docs` resources are an API for clients: flag breaking changes. Nothing may print to
+   `kb://docs` resources are an API for clients: flag breaking changes. Every tool must declare
+   accurate `ToolAnnotations` (read-only tools: readOnlyHint true, destructiveHint false,
+   idempotentHint true, openWorldHint false); a missing or wrong hint is a finding. Nothing may print to
    stdout in the stdio server.
 6. **Index compatibility.** A change of embedder model or dimension requires re-ingesting; the
    server must keep refusing a mismatched index.

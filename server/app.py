@@ -16,6 +16,7 @@ import sys
 from typing import Any
 
 from mcp.server.mcpserver import MCPServer
+from mcp_types import ToolAnnotations
 
 from ingest.embeddings import Embedder, get_embedder
 from ingest.store import IndexMismatchError, VectorStore, get_store
@@ -28,6 +29,16 @@ INSTRUCTIONS = (
 )
 
 MAX_K = 20
+
+# Both tools only read the local index: no side effects, same answer for the same input while
+# the index is unchanged, and no external systems involved. Without these hints the protocol
+# defaults assume a tool is destructive and open-world.
+READ_ONLY = {
+    "read_only_hint": True,
+    "destructive_hint": False,
+    "idempotent_hint": True,
+    "open_world_hint": False,
+}
 
 
 class KnowledgeBase:
@@ -94,7 +105,10 @@ class KnowledgeBase:
 def build_server(kb: KnowledgeBase) -> MCPServer:
     mcp = MCPServer("kb-mcp", instructions=INSTRUCTIONS)
 
-    @mcp.tool()
+    @mcp.tool(
+        title="Search policies",
+        annotations=ToolAnnotations(title="Search policies", **READ_ONLY),
+    )
     def search_docs(query: str, k: int = 5, doc_type: str | None = None) -> dict[str, Any]:
         """Search internal policies and procedures. Returns the k most relevant excerpts.
 
@@ -104,7 +118,10 @@ def build_server(kb: KnowledgeBase) -> MCPServer:
         """
         return kb.search_docs(query, k, doc_type)
 
-    @mcp.tool()
+    @mcp.tool(
+        title="Get document",
+        annotations=ToolAnnotations(title="Get document", **READ_ONLY),
+    )
     def get_doc(doc_id: str) -> dict[str, Any]:
         """Return a full document (metadata and Markdown body) by doc_id, e.g. POL-001."""
         return kb.get_doc(doc_id)

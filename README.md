@@ -85,7 +85,7 @@ uv sync --all-extras
 uv run kb-ingest            # indexa docs/ en .kb_index/ (chunker semántico)
 uv run kb-evals             # evals de los tres chunkers → evals/reports/latest.md
 uv run kb-evals --gate      # falla si cae por debajo de evals/thresholds.yaml
-uv run pytest               # 31 tests, offline (embedder hash)
+uv run pytest               # 32 tests, offline (embedder hash)
 ```
 
 ### Con Docker (pgvector)
@@ -143,6 +143,11 @@ espacios vectoriales.
 | `kb://docs` | — | Catálogo JSON |
 | `kb://docs/{doc_id}` | — | Documento en Markdown |
 
+Las dos tools declaran las anotaciones MCP `readOnlyHint: true`, `destructiveHint: false`,
+`idempotentHint: true` y `openWorldHint: false`: solo leen el índice local. Sin ellas, el protocolo
+asume por defecto que una tool es destructiva y de mundo abierto. Un test verifica que lleguen así
+al cliente.
+
 ## Evals
 
 - **Dataset dorado** ([`evals/golden.yaml`](evals/golden.yaml)): 40 preguntas como las haría un
@@ -176,7 +181,7 @@ docs/     corpus: 6 políticas + 4 procedimientos de "Nortia S.A." (sintéticos)
 ingest/   loader, chunking (fixed / semantic), embeddings, stores (local / pgvector), CLI
 server/   KnowledgeBase + servidor MCP (tools y resources)
 evals/    golden.yaml, harness.py, thresholds.yaml, reports/
-tests/    31 tests: chunking, store, harness, protocolo MCP en memoria, hook
+tests/    32 tests: chunking, store, harness, protocolo MCP en memoria, hook
 .claude/  settings.json, hooks/, agents/
 ```
 

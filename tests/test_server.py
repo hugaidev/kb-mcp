@@ -82,3 +82,23 @@ def test_mcp_call_search_and_read_resources(kb: KnowledgeBase) -> None:
     items = json.loads(catalog.contents[0].text)
     assert len(items) == 10
     assert doc.contents[0].text.startswith("# Procedimiento de reporte de incidentes de seguridad")
+
+
+def test_mcp_tools_declare_read_only_annotations(kb: KnowledgeBase) -> None:
+    async def fn(client: Client) -> dict[str, dict[str, Any]]:
+        tools = (await client.list_tools()).tools
+        # Dump with aliases: this is the camelCase JSON a client receives on the wire.
+        return {
+            t.name: t.annotations.model_dump(by_alias=True, exclude_none=True)
+            for t in tools
+            if t.annotations
+        }
+
+    annotations = _with_client(kb, fn)
+    assert set(annotations) == {"search_docs", "get_doc"}
+    for ann in annotations.values():
+        assert ann["readOnlyHint"] is True
+        assert ann["destructiveHint"] is False
+        assert ann["idempotentHint"] is True
+        assert ann["openWorldHint"] is False
+        assert ann["title"]
